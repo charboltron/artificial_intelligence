@@ -1,0 +1,35 @@
+Reflex Averages:
+
+World 1: 259.7207 
+World 3: 591.8563
+World 5: 759.6451
+
+Random Averages:
+
+World 1: 77.632 
+World 3: 143.305
+World 5: 178.4183
+
+Murphy's Reflex Averages:
+
+World 1: 265.585 
+World 3: 575.4147
+World 5: 763.5618
+
+Murphys Random Averages:
+
+World 1: 77.12 
+World 3: 142.6192
+World 5: 180.3804
+
+
+============================================================
+Reflex Averages with 10,000 allowed moves:
+World 1: 2633.8985 
+World 3: 5791.4413
+World 5: 7647.6584
+
+Murphy's Reflex Averages with 10,000 allowed moves:
+World 1: 2643.8904 
+World 3: 5911.363
+World 5: 7575.8985
