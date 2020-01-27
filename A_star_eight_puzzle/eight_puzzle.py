@@ -1,12 +1,16 @@
 import sys
 import numpy as np
 from queue import LifoQueue
-sucStack = LifoQueue()
+
+bst_fst_sucStack_h1 = LifoQueue()
+bst_fst_sucStack_h2 = LifoQueue()
 
 """Known best first solutions: 
    2 1 3 5 4 6 7 _ 8
    _ 5 2 1 8 3 4 7 6
 """
+
+arg_err_msg = 'Sorry, your input puzzle wasn\'t formatted correcty. It should be a permutation of the form: 1 2 3 4 5 6 7 8 _'
 
 mhtn = {1:[0, 1, 2, 1, 2, 3, 2, 3, 4],
         2:[1, 0, 1, 2, 1, 2, 2, 2, 3],
@@ -20,7 +24,6 @@ mhtn = {1:[0, 1, 2, 1, 2, 3, 2, 3, 4],
         } 
 
 goal = [1, 2, 3, 4, 5, 6, 7, 8, 0]
-seen_sucs = []
 
 move_dict = {'U': -3, 'R': 1,'D': 3, 'L': -1}
 
@@ -62,12 +65,28 @@ def get_out_of_order(puzz):
     # print('out of order: {}'.format(oo))
     return oo
 
-def manhattan(puzz):
+def get_manhattan(puzz):
 
     h = 0
     out_order = get_out_of_order(puzz)
     for number, index in out_order.items():
         h+= mhtn[number][index]
+    # print('manhattan distance total: {}'.format(h))
+    return h
+
+def get_misplaced_number(puzz):
+    
+    out_order = get_out_of_order(puzz)
+    h = len(out_order.keys())
+    # print('number of misplaced tiles: {}'.format(h))
+    return h
+
+def get_h_value(puzz, heuristic):
+    
+    if heuristic == 'mhtn':
+        h = get_manhattan(puzz) #calculate heuristic value
+    elif heuristic == 'tiles': 
+        h = get_misplaced_number(puzz)
     return h
 
 def get_move_puzz(puzz, direction, blank):
@@ -97,7 +116,7 @@ def get_move_options(puzz):
             move_options['L'] = False
     return move_options, blank
 
-def get_successors(puzz, move_options, blank):
+def get_successors(puzz, move_options, blank, heuristic):
     
     all_successors = {}
     hs = []
@@ -108,12 +127,10 @@ def get_successors(puzz, move_options, blank):
             all_successors[direction] = get_move_puzz(puzz, direction, blank)
 
     for move, successor in all_successors.items():
-        h = manhattan(successor)
+        h = get_h_value(successor, heuristic)
         hs.append(h)
-        print(move)
-        # print('h = {}'.format(h))
-        print(' -----------')
-        print_puzz(successor)
+        # print('if move: {} h = {} \n -----------'.format(move, h))
+        # print_puzz(successor)
 
     sucs = list(zip(hs, all_successors.values()))
     # for s in sucs:
@@ -129,11 +146,11 @@ def get_successors(puzz, move_options, blank):
     sucs_sorted_by_h_value.reverse()
     return sucs_sorted_by_h_value   
 
-def successors(puzz):
+def successors(puzz, heuristic, sucStack, seen_sucs):
 
-    move_options, blank = get_move_options(puzz)
+    move_options, blank = get_move_options(puzz)    
+    sucs = get_successors(puzz, move_options, blank, heuristic)
     # print('move options = {}'.format(move_options))
-    sucs = get_successors(puzz, move_options, blank)
     # print('sucs in rev order of h: {}'.format(sucs))
     
     for suc in sucs:
@@ -143,43 +160,46 @@ def successors(puzz):
     # print('seen sucs: {}'.format(seen_sucs))
     return
 
-def best_first(puzz):
+def best_first(puzz, heuristic, sucStack):
     
-    chosen_path = []
-    h = manhattan(puzz) #calculate heuristic value
-    # print('This puzzle has mhtn(h) = {}'.format(h))
-    sucStack.put(puzz)
+    seen_sucs = []   #list of successor puzzles seen
+    chosen_path = [] #This probably need to be changed 
+    # h = get_h_value(puzz, heuristic)
+    
+    if sucStack.empty():
+        sucStack.put(puzz)
+    else:
+        print('The Stack has elements in it!')
+        exit()
+
     count = 0
     while(not sucStack.empty()):
         
         next_puzz = sucStack.get()
-        print('choosing: ')
-        print_puzz(next_puzz)
+        # print('choosing: ')
+        # print_puzz(next_puzz)
         count += 1
-        print('Round {}. looking at moves. Height of stack: {}'.format(count, sucStack.qsize()))
+        # print('Round {}. looking at moves. Height of stack: {}'.format(count, sucStack.qsize()))
         chosen_path.append(next_puzz)
         if(next_puzz == goal):
             print('Goal!')
-            f = open('best_first_out.txt', 'w')                                
-            for p in chosen_path:
-                f.write('{}-->'.format(p))
-            f.write('Number of tried nodes: {}'.format(sucStack.qsize()))
-            f.close()
+            # f = open('best_first_out.txt', 'w')                                
+            # for p in chosen_path:
+            #     f.write('{}-->'.format(p))
+            # f.write('Number of tried nodes: {}'.format(sucStack.qsize()))
+            # f.close()
             break
-        successors(next_puzz) 
-
+        successors(next_puzz, heuristic, sucStack, seen_sucs) 
+    print('Number of tried nodes for {}: '.format(heuristic), count)
     return
 
 def a_star(puzz):
     pass
 
-def my_heuristic(puzz):
-    pass
-
 def main():
     
     if len(sys.argv) != 10: 
-        print('Sorry, your input puzzle wasn\'t formatted correcty. It should be a permutation of the form: 1 2 3 4 5 6 7 8 _')
+        print(arg_err_msg)
         exit()
     puzz = [arg for arg in sys.argv[1:]]
     # print('Input: {}'.format(puzz))
@@ -193,12 +213,14 @@ def main():
         print('Solvable')
     
     puzz = [0 if i == '_' else int(i) for i in puzz]
-    if(puzz == goal):
-        print('Goal!')
 
-    best_first(puzz)
-    a_star(puzz)
-    my_heuristic(puzz)
+    best_first(puzz, 'mhtn', bst_fst_sucStack_h1)
+    best_first(puzz, 'tiles', bst_fst_sucStack_h2)
+    # best_first(puzz, 'myh', bst_fst_sucStack_h2)
+
+    # a_star(puzz, 'mhtn')
+    # a_star(puzz, 'tiles')
+    # a_star(puzz, 'myh')
 
     return     
 
