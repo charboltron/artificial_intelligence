@@ -192,7 +192,7 @@ def reflex_agent():
                     8:{'Dirty':'Suck', 'Clean':'Up'}
                 } 
    
-    num_trials = 10000
+    num_trials = 1000
     avg1 = 0
     avg3 = 0
     avg5 = 0 
@@ -205,7 +205,7 @@ def reflex_agent():
 
 def random_agent():
     
-    num_trials = 10000
+    num_trials = 1000
     avg1 = 0
     avg3 = 0
     avg5 = 0 
@@ -230,7 +230,7 @@ def murphys_reflex_agent():
                     8:{'Dirty':'Suck', 'Clean':'Up'}
                 } 
    
-    num_trials = 10000
+    num_trials = 1000
     avg1 = 0
     avg3 = 0
     avg5 = 0 
@@ -243,7 +243,7 @@ def murphys_reflex_agent():
 
 def murphys_random_agent():
     
-    num_trials = 10000
+    num_trials = 1000
     avg1 = 0
     avg3 = 0
     avg5 = 0 

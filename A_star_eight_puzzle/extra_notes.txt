@@ -1,0 +1,788 @@
+The following is a slightly more human look-at-able Puzzle solver with some extra information not
+included in the summary findings. I've included Best First With Memory results (but not the puzzle path)
+merely as a curious juxtaposition to the poor performance of simple Best First Search. In all cases, a stack and
+and explored list were able to solve using only h(n) greedily, which is pretty interesting. 
+
+Puzzle 1: The Mother Lode (28 Inversions!)
+A* with mhtn heuristic solved this leviathan after expanding an astounding 16660 puzzle configurations (nodes)
+A* with misplaced tiles, after running for several hours, still couldn't find the solution, due to 
+the increased slowdown for each expansion caused by exponential space complexity. Since I needed to store and update
+my seen successors list (and sort it), I had to terminate the process. I think if I had used a better data structure like
+a priority queue (I used a list of tuples to keep track), it may have performed a little better. 
+
+
+[  8  7  6  ]
+
+[  5  4  3  ]
+
+[  2  _  1  ]
+
+
+[  8  7  6  ]
+
+[  5  _  3  ]
+
+[  2  4  1  ]
+
+
+[  8  7  6  ]
+
+[  5  3  _  ]
+
+[  2  4  1  ]
+
+
+[  8  7  6  ]
+
+[  5  3  1  ]
+
+[  2  4  _  ]
+
+
+[  8  7  6  ]
+
+[  5  3  1  ]
+
+[  2  _  4  ]
+
+
+[  8  7  6  ]
+
+[  5  3  1  ]
+
+[  _  2  4  ]
+
+
+[  8  7  6  ]
+
+[  _  3  1  ]
+
+[  5  2  4  ]
+
+
+[  _  7  6  ]
+
+[  8  3  1  ]
+
+[  5  2  4  ]
+
+
+[  7  _  6  ]
+
+[  8  3  1  ]
+
+[  5  2  4  ]
+
+
+[  7  3  6  ]
+
+[  8  _  1  ]
+
+[  5  2  4  ]
+
+
+[  7  3  6  ]
+
+[  8  1  _  ]
+
+[  5  2  4  ]
+
+
+[  7  3  _  ]
+
+[  8  1  6  ]
+
+[  5  2  4  ]
+
+
+[  7  _  3  ]
+
+[  8  1  6  ]
+
+[  5  2  4  ]
+
+
+[  7  1  3  ]
+
+[  8  _  6  ]
+
+[  5  2  4  ]
+
+
+[  7  1  3  ]
+
+[  8  2  6  ]
+
+[  5  _  4  ]
+
+
+[  7  1  3  ]
+
+[  8  2  6  ]
+
+[  _  5  4  ]
+
+
+[  7  1  3  ]
+
+[  _  2  6  ]
+
+[  8  5  4  ]
+
+
+[  _  1  3  ]
+
+[  7  2  6  ]
+
+[  8  5  4  ]
+
+
+[  1  _  3  ]
+
+[  7  2  6  ]
+
+[  8  5  4  ]
+
+
+[  1  2  3  ]
+
+[  7  _  6  ]
+
+[  8  5  4  ]
+
+
+[  1  2  3  ]
+
+[  7  5  6  ]
+
+[  8  _  4  ]
+
+
+[  1  2  3  ]
+
+[  7  5  6  ]
+
+[  8  4  _  ]
+
+
+[  1  2  3  ]
+
+[  7  5  _  ]
+
+[  8  4  6  ]
+
+
+[  1  2  3  ]
+
+[  7  _  5  ]
+
+[  8  4  6  ]
+
+
+[  1  2  3  ]
+
+[  7  4  5  ]
+
+[  8  _  6  ]
+
+
+[  1  2  3  ]
+
+[  7  4  5  ]
+
+[  _  8  6  ]
+
+
+[  1  2  3  ]
+
+[  _  4  5  ]
+
+[  7  8  6  ]
+
+
+[  1  2  3  ]
+
+[  4  _  5  ]
+
+[  7  8  6  ]
+
+
+[  1  2  3  ]
+
+[  4  5  _  ]
+
+[  7  8  6  ]
+
+
+[  1  2  3  ]
+
+[  4  5  6  ]
+
+[  7  8  _  ]
+
+===========================================================
+Puzzle 2: 2 Inversions
+[  2  1  3  ]
+
+[  5  4  6  ]
+
+[  7  _  8  ]
+
+Best First with Memory
+
+Number of tried nodes for manhattan:  5010
+Number of tried nodes for misplaced tiles:  5963
+Number of tried nodes for my heuristic:  9167
+
+A* with mhtn heuristic solved this badboy after expanding 596 puzzle configurations (nodes)
+A* with tiles heuristic solved this badboy after expanding 1246 puzzle configurations (nodes)
+A* with my_h heuristic solved this badboy after expanding 903 puzzle configurations (nodes)
+
+[  2  1  3  ]
+
+[  5  4  6  ]
+
+[  7  _  8  ]
+
+[  2  1  3  ]
+
+[  5  4  6  ]
+
+[  7  8  _  ]
+
+
+[  2  1  3  ]
+
+[  5  4  _  ]
+
+[  7  8  6  ]
+
+
+[  2  1  _  ]
+
+[  5  4  3  ]
+
+[  7  8  6  ]
+
+
+[  2  _  1  ]
+
+[  5  4  3  ]
+
+[  7  8  6  ]
+
+
+[  2  4  1  ]
+
+[  5  _  3  ]
+
+[  7  8  6  ]
+
+
+[  2  4  1  ]
+
+[  _  5  3  ]
+
+[  7  8  6  ]
+
+
+[  _  4  1  ]
+
+[  2  5  3  ]
+
+[  7  8  6  ]
+
+
+[  4  _  1  ]
+
+[  2  5  3  ]
+
+[  7  8  6  ]
+
+
+[  4  1  _  ]
+
+[  2  5  3  ]
+
+[  7  8  6  ]
+
+
+[  4  1  3  ]
+
+[  2  5  _  ]
+
+[  7  8  6  ]
+
+
+[  4  1  3  ]
+
+[  2  _  5  ]
+
+[  7  8  6  ]
+
+
+[  4  1  3  ]
+
+[  _  2  5  ]
+
+[  7  8  6  ]
+
+
+[  _  1  3  ]
+
+[  4  2  5  ]
+
+[  7  8  6  ]
+
+
+[  1  _  3  ]
+
+[  4  2  5  ]
+
+[  7  8  6  ]
+
+
+[  1  2  3  ]
+
+[  4  _  5  ]
+
+[  7  8  6  ]
+
+
+[  1  2  3  ]
+
+[  4  5  _  ]
+
+[  7  8  6  ]
+
+
+[  1  2  3  ]
+
+[  4  5  6  ]
+
+[  7  8  _  ]
+
+============================================================
+Puzzle 3: 10 Inversions
+[  _  5  2  ]
+
+[  1  8  3  ]
+
+[  4  7  6  ]
+
+Best First was able to solve this one so nothing intersting to say here. 
+
+A* with my_h heuristic solved this badboy after expanding 9 puzzle configurations (nodes)
+A* with mhtn heuristic solved this badboy after expanding 9 puzzle configurations (nodes)
+A* with tiles heuristic solved this badboy after expanding 9 puzzle configurations (nodes)
+[  _  5  2  ]
+
+[  1  8  3  ]
+
+[  4  7  6  ]
+
+
+[  1  5  2  ]
+
+[  _  8  3  ]
+
+[  4  7  6  ]
+
+
+[  1  5  2  ]
+
+[  4  8  3  ]
+
+[  _  7  6  ]
+
+
+[  1  5  2  ]
+
+[  4  8  3  ]
+
+[  7  _  6  ]
+
+
+[  1  5  2  ]
+
+[  4  _  3  ]
+
+[  7  8  6  ]
+
+
+[  1  _  2  ]
+
+[  4  5  3  ]
+
+[  7  8  6  ]
+
+
+[  1  2  _  ]
+
+[  4  5  3  ]
+
+[  7  8  6  ]
+
+
+[  1  2  3  ]
+
+[  4  5  _  ]
+
+[  7  8  6  ]
+
+
+[  1  2  3  ]
+
+[  4  5  6  ]
+
+[  7  8  _  ]
+============================================================
+
+Puzzle 4: 12 Inversions
+
+[  7  2  3  ]
+
+[  1  8  _  ]
+
+[  4  6  5  ]
+
+Best First for all 3 heuristics failed!
+
+Best First with Memory:
+Number of tried nodes for mhtn:  5723
+Number of tried nodes for tiles:  4750
+Number of tried nodes for my_h:  5155
+
+A* with manhattan heuristic solved this badboy after expanding 266 puzzle configurations (nodes)
+A* with misplaced tiles heuristic solved this badboy after expanding 1071 puzzle configurations (nodes)
+A* with tiles heuristic solved this badboy after expanding 601 puzzle configurations (nodes)
+
+[  7  2  3  ]
+
+[  1  8  _  ]
+
+[  4  6  5  ]
+
+
+[  7  2  _  ]
+
+[  1  8  3  ]
+
+[  4  6  5  ]
+
+
+[  7  _  2  ]
+
+[  1  8  3  ]
+
+[  4  6  5  ]
+
+
+[  _  7  2  ]
+
+[  1  8  3  ]
+
+[  4  6  5  ]
+
+
+[  1  7  2  ]
+
+[  _  8  3  ]
+
+[  4  6  5  ]
+
+
+[  1  7  2  ]
+
+[  8  _  3  ]
+
+[  4  6  5  ]
+
+
+[  1  _  2  ]
+
+[  8  7  3  ]
+
+[  4  6  5  ]
+
+
+[  1  2  _  ]
+
+[  8  7  3  ]
+
+[  4  6  5  ]
+
+
+[  1  2  3  ]
+
+[  8  7  _  ]
+
+[  4  6  5  ]
+
+
+[  1  2  3  ]
+
+[  8  7  5  ]
+
+[  4  6  _  ]
+
+
+[  1  2  3  ]
+
+[  8  7  5  ]
+
+[  4  _  6  ]
+
+
+[  1  2  3  ]
+
+[  8  _  5  ]
+
+[  4  7  6  ]
+
+
+[  1  2  3  ]
+
+[  _  8  5  ]
+
+[  4  7  6  ]
+
+
+[  1  2  3  ]
+
+[  4  8  5  ]
+
+[  _  7  6  ]
+
+
+[  1  2  3  ]
+
+[  4  8  5  ]
+
+[  7  _  6  ]
+
+
+[  1  2  3  ]
+
+[  4  _  5  ]
+
+[  7  8  6  ]
+
+
+[  1  2  3  ]
+
+[  4  5  _  ]
+
+[  7  8  6  ]
+
+
+[  1  2  3  ]
+
+[  4  5  6  ]
+
+[  7  8  _  ]
+==================================================================
+
+Puzzle 5: aka the Bad Boy: 
+[  _  3  7  ]
+
+[  8  4  1  ]
+
+[  5  6  2  ]
+
+Inversions: 16
+
+Manhattan: This puzzle was not solved in 50,000 turns
+Misplaced Tiles: This puzzle was not solved in 50,000 turns
+My heuristic: This puzzle was not solved in 50,000 turns
+
+When I ran it with Best First with Memory:
+Manhattan:
+Number of tried nodes for mhtn:  3711
+
+Misplaced Tiles:
+Number of tried nodes for tiles:  1072
+
+My Heuristic:
+Number of tried nodes for my_h:  2390
+
+A* with manhatan heuristic solved this badboy after expanding 1310 puzzle configurations (nodes)
+A* with misplaced tiles heuristic solved this badboy after expanding 17790 (!) puzzle configurations (nodes)
+A* with my heuristic (out of row, out of column) heuristic solved this badboy after expanding 6808 puzzle configurations (nodes)
+
+Solution (All 3 heuristics with A* solved this puzzle in the exact same way using 25 moves):
+[ _  3  7  ]
+
+[  8  4  1  ]
+
+[  5  6  2  ]
+
+
+[  3  _  7  ]
+
+[  8  4  1  ]
+
+[  5  6  2  ]
+
+
+[  3  7  _  ]
+
+[  8  4  1  ]
+
+[  5  6  2  ]
+
+
+[  3  7  1  ]
+
+[  8  4  _  ]
+
+[  5  6  2  ]
+
+
+[  3  7  1  ]
+
+[  8  4  2  ]
+
+[  5  6  _  ]
+
+
+[  3  7  1  ]
+
+[  8  4  2  ]
+
+[  5  _  6  ]
+
+
+[  3  7  1  ]
+
+[  8  4  2  ]
+
+[  _  5  6  ]
+
+
+[  3  7  1  ]
+
+[  _  4  2  ]
+
+[  8  5  6  ]
+
+
+[  3  7  1  ]
+
+[  4  _  2  ]
+
+[  8  5  6  ]
+
+
+[  3  _  1  ]
+
+[  4  7  2  ]
+
+[  8  5  6  ]
+
+
+[  _  3  1  ]
+
+[  4  7  2  ]
+
+[  8  5  6  ]
+
+
+[  4  3  1  ]
+
+[  _  7  2  ]
+
+[  8  5  6  ]
+
+
+[  4  3  1  ]
+
+[  7  _  2  ]
+
+[  8  5  6  ]
+
+
+[  4  _  1  ]
+
+[  7  3  2  ]
+
+[  8  5  6  ]
+
+
+[  4  1  _  ]
+
+[  7  3  2  ]
+
+[  8  5  6  ]
+
+
+[  4  1  2  ]
+
+[  7  3  _  ]
+
+[  8  5  6  ]
+
+
+[  4  1  2  ]
+
+[  7  _  3  ]
+
+[  8  5  6  ]
+
+
+[  4  1  2  ]
+
+[  7  5  3  ]
+
+[  8  _  6  ]
+
+
+[  4  1  2  ]
+
+[  7  5  3  ]
+
+[  _  8  6  ]
+
+
+[  4  1  2  ]
+
+[  _  5  3  ]
+
+[  7  8  6  ]
+
+
+[  _  1  2  ]
+
+[  4  5  3  ]
+
+[  7  8  6  ]
+
+
+[  1  _  2  ]
+
+[  4  5  3  ]
+
+[  7  8  6  ]
+
+
+[  1  2  _  ]
+
+[  4  5  3  ]
+
+[  7  8  6  ]
+
+
+[  1  2  3  ]
+
+[  4  5  _  ]
+
+[  7  8  6  ]
+
+
+[  1  2  3  ]
+
+[  4  5  6  ]
+
+[  7  8  _  ]`
+
+

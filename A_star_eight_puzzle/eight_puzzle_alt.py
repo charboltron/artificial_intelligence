@@ -251,6 +251,7 @@ def best_first(puzz, heuristic, sucStack):
 
 def a_star(puzz, heuristic, sucStack, seen_sucs):
     
+    final_fs = []
     chosen_path = []
     current_g_value = 0
 
@@ -280,14 +281,14 @@ def a_star(puzz, heuristic, sucStack, seen_sucs):
         current_g_value = len(chosen_path)
         if current_g_value not in seen_sucs: 
             seen_sucs[current_g_value] = []            
-
-        if(count == 30):
-            print('This puzzle was not solved in 1000 turns')
+        count_limit = 30
+        if(count == count_limit):
+            print('This puzzle was not solved in {} turns'.format(count_limit))
             f = open('out.txt', 'a')
             f.write('Path to Goal State (9 is the blank space):\n')                   
             for p in range(len(chosen_path)):
                 f.write('\n{}-->'.format(chosen_path[p]))
-            f.write('....\nA* search failed to solved this puzzle in under 10,000 moves using the {} heuristic'.format(heuristic))
+            f.write('....\nA* search failed to solved this puzzle in under {} moves using the {} heuristic'.format(count_limit, heuristic))
             f.close()
             return
         if(next_puzz == goal):
@@ -300,7 +301,7 @@ def a_star(puzz, heuristic, sucStack, seen_sucs):
             f.close()
             return
         else:
-            current_g_value = successors_a_star(next_puzz, heuristic, sucStack, seen_sucs, chosen_path, current_g_value) 
+            current_g_value = successors_a_star(next_puzz, heuristic, sucStack, seen_sucs, chosen_path, final_fs, current_g_value) 
 
     print('Number of tried nodes for {}: '.format(heuristic), count)
     return
@@ -336,7 +337,7 @@ def get_successors_a_star(puzz, move_options, blank, heuristic):
     hs.reverse()
     return sucs_sorted_by_h_value, hs   
 
-def successors_a_star(puzz, heuristic, sucStack, seen_sucs, chosen_path, g):
+def successors_a_star(puzz, heuristic, sucStack, seen_sucs, chosen_path, final_fs, g):
 
     move_options, blank = get_move_options(puzz)    
     sucs, hs = get_successors_a_star(puzz, move_options, blank, heuristic)
@@ -380,10 +381,12 @@ def successors_a_star(puzz, heuristic, sucStack, seen_sucs, chosen_path, g):
 
     print('List of f(n) values w/ puzzles: ',fn)
     sorted_fs =sorted(fn, key=lambda x: x[0]+x[1])
-    final_fs = []
     for i in sorted_fs:
         f = (i[0]+i[1], i[2])
-        final_fs.append(f)
+        if f not in final_fs:
+            final_fs.append(f)
+    
+    final_fs =sorted(final_fs, key=lambda x: x[0])
     print('\nsorted gs + hs = ', sorted_fs)
     print('final fs       = ', final_fs)
     chosen_successor = choose_succesor(sorted_fs, final_fs, chosen_path, seen_sucs, sucStack, g)
@@ -400,21 +403,25 @@ def choose_succesor(sorted_fs, final_fs, chosen_path, seen_sucs, sucStack, g):
     successor_chosen = False
     i = 0
     while(not successor_chosen):
-        if (sorted_fs[i][0] < g) and (sorted_fs[i][2] not in chosen_path):
+        if (final_fs[i][1] not in chosen_path):
             chosen_successor = final_fs[i][1]
-            g = sorted_fs[i][0]
+            for x in sorted_fs:
+                if chosen_successor == x[2]:
+                    g = x[2]
+
             print('\nRewinding g! g now = {}\n'.format(g))
             print('Returning to puzzle',final_fs[i][1])
             successor_chosen = True
         else: 
             i+=1
-            if i == len(sorted_fs):
+            if i == len(final_fs):
                 for j in range(4):
                     chosen_successor = final_fs[j][1]
                     if chosen_successor not in chosen_path:
                         successor_chosen = True            
-                        print('here')
                         break
+                    else:
+                        print('already in path')
     return chosen_successor
 
 def main():
