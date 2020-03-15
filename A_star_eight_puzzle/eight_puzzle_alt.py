@@ -442,8 +442,8 @@ def main():
     f = open('out.txt', 'w')                                
  
     print_initial_puzz(puzz)
-    print_puzzle_info('Best First Search', 'Manhattan')
-    best_first(puzz, 'mhtn', bst_fst_sucStack_h1)
+    # print_puzzle_info('Best First Search', 'Manhattan')
+    # best_first(puzz, 'mhtn', bst_fst_sucStack_h1)
     print_puzzle_info('Best First Search', 'Misplaced Tiles')
     best_first(puzz, 'tiles', bst_fst_sucStack_h2)
     print_puzzle_info('Best First Search', 'My Heuristic')

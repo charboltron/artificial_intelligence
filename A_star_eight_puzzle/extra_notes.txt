@@ -5,10 +5,10 @@ and explored list were able to solve using only h(n) greedily, which is pretty i
 
 Puzzle 1: The Mother Lode (28 Inversions!)
 A* with mhtn heuristic solved this leviathan after expanding an astounding 16660 puzzle configurations (nodes)
-A* with misplaced tiles, after running for several hours, still couldn't find the solution, due to 
+A* with misplaced tiles and my heuristic, after running for several hours, still couldn't find the solution, due to 
 the increased slowdown for each expansion caused by exponential space complexity. Since I needed to store and update
 my seen successors list (and sort it), I had to terminate the process. I think if I had used a better data structure like
-a priority queue (I used a list of tuples to keep track), it may have performed a little better. 
+a priority queue (I used a list of tuples to keep track), it would have performed better.  
 
 
 [  8  7  6  ]
@@ -228,6 +228,8 @@ Puzzle 2: 2 Inversions
 
 [  7  _  8  ]
 
+Best first failed
+
 Best First with Memory
 
 Number of tried nodes for manhattan:  5010
@@ -446,7 +448,7 @@ Puzzle 4: 12 Inversions
 
 [  4  6  5  ]
 
-Best First for all 3 heuristics failed!
+Best First for all 3 heuristics failed
 
 Best First with Memory:
 Number of tried nodes for mhtn:  5723
@@ -597,13 +599,8 @@ Misplaced Tiles: This puzzle was not solved in 50,000 turns
 My heuristic: This puzzle was not solved in 50,000 turns
 
 When I ran it with Best First with Memory:
-Manhattan:
 Number of tried nodes for mhtn:  3711
-
-Misplaced Tiles:
 Number of tried nodes for tiles:  1072
-
-My Heuristic:
 Number of tried nodes for my_h:  2390
 
 A* with manhatan heuristic solved this badboy after expanding 1310 puzzle configurations (nodes)

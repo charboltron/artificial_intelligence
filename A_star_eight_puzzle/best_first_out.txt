@@ -1,1 +1,1 @@
-Number of tried nodes: 2509
+Number of tried nodes: 5058
